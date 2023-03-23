@@ -13,7 +13,7 @@ import {
   MenuItem,
   Avatar,
 } from "@mui/material";
-
+import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import MenuIcon from "@mui/icons-material/Menu";
 import Logo from "../images/Logo/Logo02.png";
 function Home() {
@@ -96,6 +96,26 @@ function Home() {
                     </NavLink>
                   </MenuItem>
                   <MenuItem>
+                    <Typography textAlign="center">Salon's</Typography>
+                  </MenuItem>
+                  <MenuItem>
+                    <Typography textAlign="center">Photographer's</Typography>
+                  </MenuItem>
+                  <MenuItem>
+                    <Typography textAlign="center">Hotel's</Typography>
+                  </MenuItem>
+                  <MenuItem>
+                    <Typography textAlign="center">
+                      Fashion Designer's
+                    </Typography>
+                  </MenuItem>
+                  <MenuItem>
+                    <Typography textAlign="center">Modal's</Typography>
+                  </MenuItem>
+                  <MenuItem>
+                    <Typography textAlign="center">Visitor's</Typography>
+                  </MenuItem>
+                  <MenuItem>
                     <NavLink exact to="/about-us" smooth>
                       <Typography textAlign="center">About</Typography>
                     </NavLink>
@@ -120,13 +140,38 @@ function Home() {
                 Ceylon Models
               </Typography>
               <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+                <Button
+                  sx={{
+                    color: "white",
+                    display: "block",
+                  }}
+                >
+                  Salon's
+                </Button>
+                <Button
+                  sx={{
+                    m: 1,
+                    color: "white",
+                    display: "block",
+                  }}
+                >
+                  Photographer's
+                </Button>
+                <Button sx={{ m: 1, color: "white", display: "block" }}>
+                  Hotel's
+                </Button>
+                <Button sx={{ m: 1, color: "white", display: "block" }}>
+                  Fashion Designer's
+                </Button>
+                <Button sx={{ m: 1, color: "white", display: "block" }}>
+                  Modal's
+                </Button>
+                <Button sx={{ m: 1, color: "white", display: "block" }}>
+                  Visitor's
+                </Button>
                 <NavLink exact to="/about-us" smooth>
                   <Button
-                    sx={{
-                      my: 2,
-                      color: "white",
-                      display: "block",
-                    }}
+                    sx={{ m: 1, my: 2, color: "white", display: "block" }}
                   >
                     About Us
                   </Button>
@@ -135,12 +180,16 @@ function Home() {
               <Box sx={{ flexGrow: 0 }}>
                 <Button
                   sx={{
-                    my: 2,
                     color: "white",
                     display: "block",
                   }}
                   onClick={() => navigate("/login")}
                 >
+                  <IconButton                    
+                    color="inherit"
+                  >
+                    <GroupAddIcon />
+                  </IconButton>
                   Login
                 </Button>
               </Box>
