@@ -1,11 +1,16 @@
+import { Box } from "@mui/material";
 import React from "react";
+import Post from "../Components/Post";
 
-function Album() {
+const Album = () => {
   return (
-    <div>
-      <h1>Album Page</h1>
-    </div>
+    <>      
+      <Post />
+      <Post />
+      <Post />
+      <Post />
+    </>
   );
-}
+};
 
 export default Album;

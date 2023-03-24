@@ -1,8 +1,8 @@
 {
   "name": "ceylon-models",
-  "version": "0.1.0",  
+  "version": "0.1.0",
   "description": "Designed for photographers who want to create and publish their own albums publicly",
-  "homepage": "https://ceylon-models-dsd.web.app/",  
+  "homepage": "https://ceylon-models-dsd.web.app/",
   "author": {
     "name": "Dinendra Kumarasinghe",
     "email": "",
@@ -22,6 +22,7 @@
     "@fontsource/roboto": "^4.5.8",
     "@mui/icons-material": "^5.11.11",
     "@mui/material": "^5.11.14",
+    "@mui/styles": "^5.11.13",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",

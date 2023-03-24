@@ -9,6 +9,18 @@ a {
   height: 100%;
 }
 
+.centered {
+  position: absolute;
+  color: #f0ffff;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.centered:hover {
+  cursor: pointer;
+}
+
 @media screen and (max-width: 480px) {
   .signImage {
     display: none;

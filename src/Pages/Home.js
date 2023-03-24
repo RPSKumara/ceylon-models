@@ -30,7 +30,7 @@ function Home() {
   return (
     <div>
       <>
-        <AppBar position="static">
+        <AppBar position="fixed">
           <Container maxWidth="xl">
             <Toolbar disableGutters>
               <Avatar
@@ -185,9 +185,7 @@ function Home() {
                   }}
                   onClick={() => navigate("/login")}
                 >
-                  <IconButton                    
-                    color="inherit"
-                  >
+                  <IconButton color="inherit">
                     <GroupAddIcon />
                   </IconButton>
                   Login
@@ -197,6 +195,7 @@ function Home() {
           </Container>
         </AppBar>
       </>
+      <div style={{ minHeight: "4rem" }} />
       <Outlet />
     </div>
   );
