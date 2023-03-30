@@ -18,7 +18,11 @@ a {
 }
 
 .centered:hover {
-  cursor: pointer;
+  cursor: context-menu;
+}
+
+.icon:hover {
+  cursor: context-menu;
 }
 
 @media screen and (max-width: 480px) {

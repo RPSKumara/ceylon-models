@@ -31,7 +31,6 @@ export default function Post() {
         <Grid container>
           <Grid item xs={12}>
             <Box my={3}></Box>
-
             <Card>
               <CardHeader
                 avatar={

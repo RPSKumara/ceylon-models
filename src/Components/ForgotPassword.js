@@ -3,7 +3,7 @@ import {
   Avatar,
   Button,
   CssBaseline,
-  TextField, 
+  TextField,
   Link,
   Grid,
   Box,
@@ -15,6 +15,7 @@ import {
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import LoginPng from "../images/ForgotPassword.png";
 import Logo from "../images/Logo/Logo01.png";
+import { customAlert, sendPasswordReset } from "../firebaseConfig";
 function Copyright(props) {
   return (
     <Typography
@@ -46,8 +47,8 @@ export default function ForgotPassword({ setState }) {
       setHelperText("Please enter the email");
       setError(true);
     } else {
-      console.log(data.get("email"));
-      // sendPasswordReset(data.get("email"));
+      sendPasswordReset(data.get("email"));
+      customAlert("Password reset email sent, check email", "success");
     }
   };
   const handleSignIn = () => {

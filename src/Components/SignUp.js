@@ -1,22 +1,31 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+
 import LoginPng from "../images/SignUp.png";
 import Logo from "../images/Logo/Logo01.png";
-import {
-  FormControl,
-  FormHelperText,
-  Paper,
-  Link,
-  Grid,
-  Box,
-  Typography,
-  TextField,
-  CssBaseline,
-  Button,
-  Avatar,
-} from "@mui/material";
 
+import TextField from "@mui/material/TextField";
+
+import {
+  Button,
+  FormControlLabel,
+  FormHelperText,
+  FormGroup,
+  Checkbox,
+  Typography,
+  Link,
+  Box,
+  Grid,
+  Paper,
+  CssBaseline,
+  Avatar,
+  InputAdornment,
+} from "@mui/material";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { customAlert, registerWithEmailAndPassword } from "../firebaseConfig";
 function Copyright(props) {
   return (
     <Typography
@@ -39,74 +48,38 @@ const theme = createTheme();
 
 export default function SignUp({ setState }) {
   const navigate = useNavigate();
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-    //Set Errors
-    if (
-      !data.get("email") ||
-      !data.get("password") ||
-      !data.get("firstName") ||
-      !data.get("lastName")
+  const onSubmit = (data) => {
+    // console.log(data.password);
+
+    const regExp =
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+    if (!regExp.test(data.password)) {
+      setPasswordError(
+        "Minimum eight characters, at least one letter, one number and one special character"
+      );
+    } else if (
+      regExp.test(data.password) &&
+      data.confirm_password !== data.password
     ) {
-      if (!data.get("email")) {
-        setHelperText((prevState) => ({
-          ...prevState,
-          email: "email must include",
-        }));
-        setError(true);
-      }
-      if (!data.get("password")) {
-        setHelperText((prevState) => ({
-          ...prevState,
-          password: "password must include",
-        }));
-        setError(true);
-      }
-      if (!data.get("firstName")) {
-        setHelperText((prevState) => ({
-          ...prevState,
-          firstName: "firstName must include",
-        }));
-        setError(true);
-      }
-      if (!data.get("lastName")) {
-        setHelperText((prevState) => ({
-          ...prevState,
-          lastName: "lastName must include",
-        }));
-        setError(true);
-      }
+      setPasswordError("Password must match");
     } else {
-      setHelperText((prevState) => ({
-        ...prevState,
-        firstName: "",
-        lastName: "",
-        email: "",
-        password: "",
-      }));
-      console.log("Data", data);
-      // console.log(
-      //   data.get("email"),
-      //   data.get("password"),
-      //   data.get("firstName"),
-      //   data.get("lastName")
-      // );
+      setPasswordError("");
+      registerWithEmailAndPassword(data.email, data.password);
     }
   };
 
-  const [error, setError] = useState(false);
-  const [helperText, setHelperText] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-  });
   const handleSignIn = () => {
     setState("SignIn");
   };
-
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [passwordError, setPasswordError] = useState("");
   return (
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
@@ -126,70 +99,142 @@ export default function SignUp({ setState }) {
             <Typography component="h1" variant="h5">
               Sign up
             </Typography>
-            <Box
-              component="form"
-              noValidate
-              onSubmit={handleSubmit}
-              sx={{ mt: 3 }}
-            >
-              <FormControl sx={{ m: 3 }} error={error} variant="standard">
+            <Box sx={{ mt: 3 }}>
+              <form onSubmit={handleSubmit(onSubmit)}>
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={6}>
                     <TextField
-                      autoComplete="given-name"
+                      id="outlined-basic"
                       name="firstName"
-                      required
-                      fullWidth
-                      id="firstName"
                       label="First Name"
-                      autoFocus
+                      variant="outlined"
+                      fullWidth
+                      {...register("firstName", {
+                        required: "First Name is required.",
+                      })}
+                      error={Boolean(errors.firstName)}
+                      helperText={errors.firstName?.message}
                     />
-                    <FormHelperText>{helperText.firstName}</FormHelperText>
                   </Grid>
                   <Grid item xs={12} sm={6}>
                     <TextField
-                      required
-                      fullWidth
-                      id="lastName"
+                      id="outlined-basic"
                       label="Last Name"
+                      variant="outlined"
+                      fullWidth
                       name="lastName"
-                      autoComplete="family-name"
+                      {...register("lastName", {
+                        required: "Last Name is required.",
+                      })}
+                      error={Boolean(errors.lastName)}
+                      helperText={errors.lastName?.message}
                     />
-                    <FormHelperText>{helperText.lastName}</FormHelperText>
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
-                      required
+                      id="outlined-basic"
+                      label="E-mail"
+                      variant="outlined"
                       fullWidth
-                      id="email"
-                      label="Email Address"
                       name="email"
-                      autoComplete="email"
+                      {...register("email", {
+                        required: "E-mail Address is required.",
+                      })}
+                      error={Boolean(errors.email)}
+                      helperText={errors.email?.message}
                     />
-                    <FormHelperText>{helperText.email}</FormHelperText>
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid item xs={12} sm={6}>
                     <TextField
-                      required
-                      fullWidth
-                      name="password"
+                      id="outlined-basic"
                       label="Password"
-                      type="password"
-                      id="password"
-                      autoComplete="new-password"
+                      variant="outlined"
+                      fullWidth
+                      type={showPassword ? "text" : "password"}
+                      name="password"
+                      {...register("password", {
+                        required: "Password is required",
+                      })}
+                      error={Boolean(passwordError) || Boolean(errors.password)}
+                      helperText={passwordError || errors.password?.message}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment
+                            position="end"
+                            className="icon"
+                            onClick={() => setShowPassword(!showPassword)}
+                          >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </InputAdornment>
+                        ),
+                      }}
                     />
-                    <FormHelperText>{helperText.password}</FormHelperText>
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      id="outlined-basic"
+                      label="Confirm Password"
+                      variant="outlined"
+                      fullWidth
+                      type={showConfirmPassword ? "text" : "password"}
+                      name="confirm_password"
+                      {...register("confirm_password", {
+                        required: "Confirm Password is required",
+                      })}
+                      error={Boolean(errors.confirm_password)}
+                      helperText={errors.confirm_password?.message}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment
+                            position="end"
+                            className="icon"
+                            onClick={() =>
+                              setShowConfirmPassword(!showConfirmPassword)
+                            }
+                          >
+                            {showConfirmPassword ? (
+                              <VisibilityOff />
+                            ) : (
+                              <Visibility />
+                            )}
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+                  </Grid>
+                  {/* Check box */}
+                  <Grid item xs={12}>
+                    <FormGroup
+                      error={Boolean(errors.tnc)}
+                      style={{ display: "block", marginTop: "17px" }}
+                    >
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            name="tnc"
+                            {...register("tnc", {
+                              required: "please aggre our terms and condtions",
+                            })}
+                          />
+                        }
+                        label="I aggree all terms and conditions"
+                      />
+                    </FormGroup>
+                    <FormHelperText style={{ color: "#d32f2f" }}>
+                      {errors.tnc?.message}
+                    </FormHelperText>
                   </Grid>
                 </Grid>
                 <Button
+                  variant="contained"
+                  color="primary"
                   type="submit"
                   fullWidth
-                  variant="contained"
                   sx={{ mt: 3, mb: 2 }}
                 >
-                  Sign Up
+                  create new account
                 </Button>
-              </FormControl>
+              </form>
               <Grid container justifyContent="flex-end">
                 <Grid item>
                   <Link href="#" variant="body2" onClick={() => handleSignIn()}>

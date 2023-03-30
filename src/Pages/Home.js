@@ -183,7 +183,7 @@ function Home() {
                     color: "white",
                     display: "block",
                   }}
-                  onClick={() => navigate("/login")}
+                  onClick={() => navigate("/dashboard")}
                 >
                   <IconButton color="inherit">
                     <GroupAddIcon />

@@ -2,6 +2,8 @@ import "./App.css";
 import React, { lazy, Suspense } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
+import { auth } from "./firebaseConfig";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 const Home = lazy(() => import("./Pages/Home"));
 // Album and About pages are include inside home page
@@ -18,6 +20,7 @@ const Dashboard = lazy(() => import("./Pages/Dashboard"));
 const PageNotFound = lazy(() => import("./Pages/PageNotFound"));
 
 function App() {
+  const [user] = useAuthState(auth);
   const location = useLocation();
   return (
     <AnimatePresence>
@@ -26,9 +29,11 @@ function App() {
           <Route path="/" element={<Home />}>
             <Route index element={<Album />}></Route>
             <Route path="about-us" element={<About />}></Route>
-          </Route>
-          <Route path="/login" element={<UserCredential />}></Route>
-          <Route path="/dashboard" element={<Dashboard />}></Route>
+          </Route>          
+          <Route
+            path="/dashboard"
+            element={user ? <Dashboard /> : <UserCredential />}
+          ></Route>
           <Route path="*" element={<PageNotFound />}></Route>
         </Routes>
       </Suspense>
