@@ -36,15 +36,18 @@ function Dashboard() {
         <p>User Email : {email}</p>
         <p>Name : {displayName}</p>
         {emailVerified && <p>Verified Email</p>}
-        <Button variant="contained" onClick={() => verify()}>
-          Verify Email
-        </Button>
+        {!emailVerified && (
+          <Button variant="contained" onClick={() => verify()}>
+            Verify Email
+          </Button>
+        )}
+
         <br />
         <br />
         <Button variant="contained" color="warning" onClick={logout}>
           Log Out
         </Button>
-        
+
         <Outlet />
         <BottomNavigation
           style={{
