@@ -70,7 +70,9 @@ export default function SignUp({ setState }) {
       setPasswordError("Password must match");
     } else {
       setPasswordError("");
-      registerWithEmailAndPassword(data.email, data.password);
+      const name = `${data.firstName} ${data.lastName}`;
+      // console.log("Name ", name);
+      registerWithEmailAndPassword(data.email, data.password, name);
     }
   };
 

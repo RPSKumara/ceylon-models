@@ -16,6 +16,13 @@ const UserCredential = lazy(() => import("./Pages/UserCredential"));
 //After Login Users
 const Dashboard = lazy(() => import("./Pages/Dashboard"));
 
+//For users
+const ViewAlbums = lazy(() => import("./Pages/Client/ViewAlbums"));
+const Setting = lazy(() => import("./Pages/Client/Setting"));
+const Payment = lazy(() => import("./Pages/Client/Payment"));
+const CreateAlbums = lazy(() => import("./Pages/Client/CreateAlbums"));
+const RequestHandling = lazy(() => import("./Pages/Client/RequestHandling"));
+
 //When url does not exit
 const PageNotFound = lazy(() => import("./Pages/PageNotFound"));
 
@@ -29,11 +36,21 @@ function App() {
           <Route path="/" element={<Home />}>
             <Route index element={<Album />}></Route>
             <Route path="about-us" element={<About />}></Route>
-          </Route>          
+          </Route>
           <Route
             path="/dashboard"
             element={user ? <Dashboard /> : <UserCredential />}
-          ></Route>
+          >
+            <Route index element={<ViewAlbums />}></Route>
+            <Route path="create-albums" element={<CreateAlbums />}></Route>
+            <Route path="setting" element={<Setting />}></Route>
+            <Route path="payment" element={<Payment />}></Route>
+            <Route
+              path="request-handling"
+              element={<RequestHandling />}
+            ></Route>
+            <Route path="about-us" element={<About />}></Route>
+          </Route>
           <Route path="*" element={<PageNotFound />}></Route>
         </Routes>
       </Suspense>
