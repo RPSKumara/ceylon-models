@@ -5,10 +5,7 @@ import Post from "../Components/Post";
 const Album = () => {
   return (
     <>      
-      <Post />
-      <Post />
-      <Post />
-      <Post />
+      <Post />      
     </>
   );
 };

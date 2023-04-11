@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import Articles from './../../Components/Article/Articles';
 
 function ViewAlbums() {
   return (
-    <div>ViewAlbums</div>
-  )
+    <>
+      <Articles />
+    </>
+  );
 }
 
-export default ViewAlbums
+export default ViewAlbums;

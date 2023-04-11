@@ -26,6 +26,8 @@ const RequestHandling = lazy(() => import("./Pages/Client/RequestHandling"));
 //When url does not exit
 const PageNotFound = lazy(() => import("./Pages/PageNotFound"));
 
+const Article = lazy(() => import("./Components/Article/Article"));
+
 function App() {
   const [user] = useAuthState(auth);
   const location = useLocation();
@@ -35,6 +37,7 @@ function App() {
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<Home />}>
             <Route index element={<Album />}></Route>
+            <Route path="articles/:id" element={<Article />} />
             <Route path="about-us" element={<About />}></Route>
           </Route>
           <Route
@@ -45,12 +48,14 @@ function App() {
             <Route path="create-albums" element={<CreateAlbums />}></Route>
             <Route path="setting" element={<Setting />}></Route>
             <Route path="payment" element={<Payment />}></Route>
+            <Route path="article/:id" element={<Article />} />
             <Route
               path="request-handling"
               element={<RequestHandling />}
             ></Route>
             <Route path="about-us" element={<About />}></Route>
           </Route>
+
           <Route path="*" element={<PageNotFound />}></Route>
         </Routes>
       </Suspense>

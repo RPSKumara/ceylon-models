@@ -1,8 +1,11 @@
 import React from 'react'
+import AddArticle from '../../Components/Article/AddArticles'
 
 function CreateAlbums() {
   return (
-    <div>CreateAlbums</div>
+    <div>
+      <AddArticle/>
+    </div>
   )
 }
 

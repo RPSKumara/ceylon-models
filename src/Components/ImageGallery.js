@@ -1,42 +1,36 @@
-import {
-  Card,
+import {  
   ImageList,
-  ImageListItem,
-  ListSubheader,
+  ImageListItem,  
   Paper,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React from "react";
 
-const ImageGallery = ({ itemData }) => {
-  const [isModalOpen, setIsModalOpen] = useState(true);
+const ImageGallery = ({ images }) => { 
   return (
     <Paper>
-      <ImageList>        
-        {isModalOpen ? (
+      <ImageList>
+        
           <>
-            {itemData.slice(0, 3).map((item) => (
-              <ImageListItem key={item.img}>
+            {images.slice(0, 3).map((url, index) => (
+              <ImageListItem key={index}>
                 <img
-                  src={`${item.img}?w=248&fit=crop&auto=format`}
-                  srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                  alt={item.title}
+                  src={`${url}?w=248&fit=crop&auto=format`}
+                  srcSet={`${url}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                  alt={`Images ${index}`}
                   loading="lazy"
                 />
               </ImageListItem>
             ))}
-            {itemData.slice(3, 4).map((item) => (
-              <ImageListItem key={item.img}>
+            {images.slice(3, 4).map((url, index) => (
+              <ImageListItem key={index}>
                 <img
-                  src={`${item.img}?w=248&fit=crop&auto=format`}
-                  srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                  alt={item.title}
+                  src={`${url}?w=248&fit=crop&auto=format`}
+                  srcSet={`${url}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                  alt={`Images ${index}`}
                   loading="lazy"
                 />
                 <Typography
-                  onClick={() => {
-                    setIsModalOpen(!isModalOpen);
-                  }}
                   sx={{
                     fontSize: "3rem",
                     textAlign: "center",
@@ -45,25 +39,12 @@ const ImageGallery = ({ itemData }) => {
                   variant="subtitle1"
                   gutterBottom
                 >
-                  {`+${itemData.length - 3}`}
+                  {`+${images.length - 3}`}
                 </Typography>
               </ImageListItem>
             ))}
           </>
-        ) : (
-          <>
-            {itemData.map((item) => (
-              <ImageListItem key={item.img}>
-                <img
-                  src={`${item.img}?w=248&fit=crop&auto=format`}
-                  srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                  alt={item.title}
-                  loading="lazy"
-                />
-              </ImageListItem>
-            ))}
-          </>
-        )}
+        
       </ImageList>
     </Paper>
   );
