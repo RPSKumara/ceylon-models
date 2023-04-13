@@ -1,5 +1,5 @@
 import React from "react";
-import Articles from './../../Components/Article/Articles';
+import Articles from '../../Components/Article/Articles';
 
 function ViewAlbums() {
   return (

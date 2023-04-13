@@ -15,7 +15,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 export default function Comment({ id }) {
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
-  const [currentlyLoggedinUser] = useAuthState(auth);
+  const [currentlyLoggedUser] = useAuthState(auth);
   const commentRef = doc(db, "Articles", id);
   useEffect(() => {
     const docRef = doc(db, "Articles", id);
@@ -28,8 +28,8 @@ export default function Comment({ id }) {
     if (e.key === "Enter") {
       updateDoc(commentRef, {
         comments: arrayUnion({
-          user: currentlyLoggedinUser.uid,
-          userName: currentlyLoggedinUser.displayName,
+          user: currentlyLoggedUser.uid,
+          userName: currentlyLoggedUser.displayName,
           comment: comment,
           createdAt: new Date(),
           commentId: uuidv4(),
@@ -64,7 +64,7 @@ export default function Comment({ id }) {
                 <div className="col-11">
                   <span
                     className={`badge ${
-                      user === currentlyLoggedinUser.uid
+                      user === currentlyLoggedUser.uid
                         ? "bg-success"
                         : "bg-primary"
                     }`}
@@ -75,7 +75,7 @@ export default function Comment({ id }) {
                   {comment}
                 </div>
                 <div className="col-1">
-                  {user === currentlyLoggedinUser.uid && (
+                  {user === currentlyLoggedUser.uid && (
                     <IconButton
                       aria-label="delete comment"
                       size="small"
@@ -96,7 +96,7 @@ export default function Comment({ id }) {
               </div>
             </div>
           ))}
-        {currentlyLoggedinUser && (
+        {currentlyLoggedUser && (
           <TextField
             type="text"
             fullWidth

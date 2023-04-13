@@ -1,7 +1,6 @@
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
 import React, { useState, useEffect } from "react";
-import { db } from "../firebaseConfig";
-import { Link } from "react-router-dom";
+import { db } from "../../firebaseConfig";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
@@ -25,6 +24,8 @@ export default function Post() {
       console.log(articles);
     });
   }, []);
+
+  const [moreComment, setMoreComment] = useState(false);
   return (
     <Container>
       <Grid container spacing={2}>
@@ -56,13 +57,11 @@ export default function Post() {
                       createdAt && `${createdAt.toDate().toDateString()}`
                     }
                   />
-                  <Link to={`/articles/${id}`}>
-                    <ImageGallery images={imageUrls} />
-                  </Link>
+                  <Typography gutterBottom variant="h4" color="text.primary">
+                    {title}
+                  </Typography>
+                  <ImageGallery images={imageUrls} />
                   <CardContent>
-                    <Typography gutterBottom variant="h4" color="text.primary">
-                      {title}
-                    </Typography>
                     <Typography variant="h6" color="text.primary">
                       {description}
                     </Typography>
@@ -78,22 +77,45 @@ export default function Post() {
                       </>
                     )}
 
-                    {comments &&
-                      comments
-                        .slice(Math.max(comments.length - 3, 0))
-                        .map((com) => (
-                          <>
-                            <div className="comment">
-                              <p>
-                                <span className="author">{com.userName}:</span>{" "}
-                                {com.comment}
-                              </p>
-                              <p className="timestamp">
-                                {com.createdAt.toDate().toDateString()}
-                              </p>
-                            </div>
-                          </>
-                        ))}
+                    <div className="comment-container">
+                      {comments &&
+                        (moreComment
+                          ? comments.map((com, index) => (
+                              <div key={index} className="comment">
+                                <p>
+                                  <span className="author">
+                                    {com.userName}:
+                                  </span>{" "}
+                                  {com.comment}
+                                </p>
+                                <p className="timestamp">
+                                  {com.createdAt.toDate().toDateString()}
+                                </p>
+                              </div>
+                            ))
+                          : comments
+                              .slice(Math.max(comments.length - 3, 0))
+                              .map((com, index) => (
+                                <div key={index} className="comment">
+                                  <p>
+                                    <span className="author">
+                                      {com.userName}:
+                                    </span>{" "}
+                                    {com.comment}
+                                  </p>
+                                  <p className="timestamp">
+                                    {com.createdAt.toDate().toDateString()}
+                                  </p>
+                                </div>
+                              )))}
+                      <Typography
+                        variant="caption"
+                        onClick={() => setMoreComment(!moreComment)}
+                        className="view-more"
+                      >
+                        {moreComment ? "view less" : "view more.."}
+                      </Typography>
+                    </div>
                   </CardContent>
                 </Card>
               </Grid>

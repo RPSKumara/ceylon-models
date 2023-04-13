@@ -1,7 +1,15 @@
-import React from "react";
+import React from 'react'
+import EditDisplayName from '../../Components/Article/EditDisplayName'
+import { Container } from '@mui/material'
+import EditProfileImage from '../../Components/Article/EditProfileImage'
 
-function Setting() {
-  return <div>Setting</div>;
+const Setting = () => {
+  return (
+    <Container>
+      <EditDisplayName/>
+      <EditProfileImage/>
+    </Container>
+  )
 }
 
-export default Setting;
+export default Setting

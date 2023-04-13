@@ -16,7 +16,7 @@ import {
 
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import MenuIcon from "@mui/icons-material/Menu";
-import Logo from "../images/Logo/Logo02.png";
+import Logo from "../../images/Logo/Logo02.png";
 
 function Home() {
   const navigate = useNavigate();

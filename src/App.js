@@ -5,16 +5,16 @@ import { AnimatePresence } from "framer-motion";
 import { auth } from "./firebaseConfig";
 import { useAuthState } from "react-firebase-hooks/auth";
 
-const Home = lazy(() => import("./Pages/Home"));
+const Home = lazy(() => import("./Pages/Public/Home"));
 // Album and About pages are include inside home page
-const About = lazy(() => import("./Pages/About"));
-const Album = lazy(() => import("./Pages/Album"));
+const About = lazy(() => import("./Pages/Public/About"));
+const Album = lazy(() => import("./Pages/Public/Album"));
 
 //For the Login or Register users
-const UserCredential = lazy(() => import("./Pages/UserCredential"));
+const UserCredential = lazy(() => import("./Pages/Public/UserCredential"));
 
 //After Login Users
-const Dashboard = lazy(() => import("./Pages/Dashboard"));
+const Dashboard = lazy(() => import("./Pages/Client/Dashboard"));
 
 //For users
 const ViewAlbums = lazy(() => import("./Pages/Client/ViewAlbums"));
@@ -24,7 +24,7 @@ const CreateAlbums = lazy(() => import("./Pages/Client/CreateAlbums"));
 const RequestHandling = lazy(() => import("./Pages/Client/RequestHandling"));
 
 //When url does not exit
-const PageNotFound = lazy(() => import("./Pages/PageNotFound"));
+const PageNotFound = lazy(() => import("./Pages/Public/PageNotFound"));
 
 const Article = lazy(() => import("./Components/Article/Article"));
 

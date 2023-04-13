@@ -15,8 +15,7 @@ import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
 import { Grid } from "@mui/material";
-import ImageList from "./ImageList";
-import ImageGallery from "./../ImageGallery";
+import ImageGallery from "../Public/ImageGallery";
 
 export default function Articles() {
   const [articles, setArticles] = useState([]);

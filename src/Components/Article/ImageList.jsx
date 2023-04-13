@@ -7,7 +7,7 @@ const ImageList = ({ images }) => {
         <img
           key={index}
           src={url}
-          alt={`Image ${index}`}
+          alt={`Imag ${index}`}
           style={{ maxWidth: "20vw" }}
         />
       ))}

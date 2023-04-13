@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink, Outlet } from "react-router-dom";
 
-import { auth, logout } from "../firebaseConfig";
+import { auth, logout } from "../../firebaseConfig";
 import { useAuthState } from "react-firebase-hooks/auth";
 import {
   AppBar,
@@ -26,8 +26,7 @@ import AdbIcon from "@mui/icons-material/Adb";
 import MenuIcon from "@mui/icons-material/Menu";
 
 function Dashboard() {
-  const [{ emailVerified }] = useAuthState(auth);
-  console.log(emailVerified);
+  const [{ emailVerified }] = useAuthState(auth);  
   const isLargeScreen = useMediaQuery("(min-width: 960px)");
   const iconSize = isLargeScreen ? 40 : 25;
 
