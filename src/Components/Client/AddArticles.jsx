@@ -2,8 +2,15 @@ import React, { useState } from "react";
 import { Timestamp, collection, addDoc } from "firebase/firestore";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage, db, auth, customAlert } from "../../firebaseConfig";
+import Compressor from "compressorjs";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { Button, Grid, LinearProgress, TextField } from "@mui/material";
+import {
+  Button,
+  Grid,
+  LinearProgress,
+  TextField,
+  Typography,
+} from "@mui/material";
 
 export default function AddArticles() {
   const [user] = useAuthState(auth);
@@ -28,7 +35,28 @@ export default function AddArticles() {
       return;
     }
 
-    setFormData({ ...formData, images: files });
+    // Compress the images
+    const compressedFiles = [];
+    const options = {
+      maxWidth: 800, // Max width of the compressed image
+      maxHeight: 800, // Max height of the compressed image
+      quality: 0.8, // Compression quality (0 to 1)
+      success(result) {
+        compressedFiles.push(result);
+      },
+      error(err) {
+        console.log(err.message);
+      },
+    };
+
+    files.forEach((file) => {
+      new Compressor(file, options);
+    });
+
+    // Wait for all the images to be compressed before setting the state
+    setTimeout(() => {
+      setFormData({ ...formData, images: compressedFiles });
+    }, 1000);
   };
 
   const handlePublish = () => {
@@ -75,6 +103,7 @@ export default function AddArticles() {
           userId: user.uid,
           likes: [],
           comments: [],
+          photoURL: user.photoURL,
         })
           .then(() => {
             customAlert("Article added successfully", "success");
@@ -97,7 +126,9 @@ export default function AddArticles() {
     <>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <h2>Create article</h2>
+          <Typography variant="h2" align="center" fontWeight="bold">
+            Create article
+          </Typography>
         </Grid>
         <Grid item xs={12} sm={6}>
           {/* title */}
@@ -123,24 +154,36 @@ export default function AddArticles() {
             fullWidth
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item container xs={12} sm={6}>
           {/* image */}
-          <label htmlFor="image-input">
+          <label
+            htmlFor="image-input"
+            style={{ display: "flex", flexWrap: "wrap" }}
+          >
             {formData.images.length > 0 ? (
               formData.images.map((image) => (
                 <img
                   src={URL.createObjectURL(image)}
                   alt="Article Preview"
                   key={image.name}
-                  style={{ maxWidth: "100%", marginBottom: "1rem" }}
+                  style={{ maxWidth: "40%", marginBottom: "1rem" }}
                 />
               ))
             ) : (
-              <Button variant="contained" component="span">
+              <Button
+                variant="contained"
+                component="span"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
                 Upload Image
               </Button>
             )}
           </label>
+
           <input
             type="file"
             id="image-input"

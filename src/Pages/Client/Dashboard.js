@@ -5,6 +5,7 @@ import { auth, logout } from "../../firebaseConfig";
 import { useAuthState } from "react-firebase-hooks/auth";
 import {
   AppBar,
+  Avatar,
   BottomNavigationAction,
   Box,
   Container,
@@ -26,7 +27,7 @@ import AdbIcon from "@mui/icons-material/Adb";
 import MenuIcon from "@mui/icons-material/Menu";
 
 function Dashboard() {
-  const [{ emailVerified }] = useAuthState(auth);  
+  const [user, { emailVerified, photoUrl }] = useAuthState(auth);
   const isLargeScreen = useMediaQuery("(min-width: 960px)");
   const iconSize = isLargeScreen ? 40 : 25;
 
@@ -60,6 +61,11 @@ function Dashboard() {
       <AppBar position="fixed">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
+            {user.photoURL && (
+              <IconButton>
+                <Avatar alt="" src={user.photoURL} />
+              </IconButton>
+            )}
             <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
             <Typography
               variant="h6"
@@ -159,67 +165,91 @@ function Dashboard() {
             >
               LOGO
             </Typography>
-            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-              <NavLink exact to="/dashboard" smooth>
-                <BottomNavigationAction
-                  label="Home"
-                  icon={
-                    <HomeIcon style={{ color: "white", fontSize: iconSize }} />
-                  }
-                />
+            <Box
+              sx={{
+                flexGrow: 1,
+                display: {
+                  xs: "none",
+                  md: "flex",
+                  alignItems: "center",
+                  color: "white",
+                },
+              }}
+            >
+              <NavLink
+                style={{ flexGrow: 1, color: "white" }}
+                exact
+                to="/dashboard"
+                smooth
+              >
+                <IconButton color="inherit">
+                  <HomeIcon style={{ fontSize: iconSize }} />
+                  <Typography variant="subtitle1" sx={{ ml: 1 }}>
+                    Home
+                  </Typography>
+                </IconButton>
               </NavLink>
-              <NavLink exact to="/dashboard/create-albums" smooth>
-                <BottomNavigationAction
-                  label="Add Album"
-                  icon={
-                    <AddBoxIcon
-                      style={{ color: "white", fontSize: iconSize }}
-                    />
-                  }
-                />
+              <NavLink
+                style={{ flexGrow: 1, color: "white" }}
+                exact
+                to="/dashboard/create-albums"
+                smooth
+              >
+                <IconButton color="inherit">
+                  <AddBoxIcon style={{ fontSize: iconSize }} />
+                  <Typography variant="subtitle1" sx={{ ml: 1 }}>
+                    Add Album
+                  </Typography>
+                </IconButton>
               </NavLink>
               {emailVerified ? (
-                <NavLink exact to="/dashboard/request-handling" smooth>
-                  <BottomNavigationAction
-                    label="Request Handling"
-                    icon={
-                      <BorderColorIcon
-                        style={{ color: "white", fontSize: iconSize }}
-                      />
-                    }
-                  />
+                <NavLink
+                  style={{ flexGrow: 1, color: "white" }}
+                  exact
+                  to="/dashboard/request-handling"
+                  smooth
+                >
+                  <IconButton color="inherit">
+                    <BorderColorIcon style={{ fontSize: iconSize }} />
+                    <Typography variant="subtitle1" sx={{ ml: 1 }}>
+                      Request Handling
+                    </Typography>
+                  </IconButton>
                 </NavLink>
               ) : (
-                <NavLink exact to="/dashboard/payment" smooth>
-                  <BottomNavigationAction
-                    label="Payment"
-                    icon={
-                      <PaidIcon
-                        style={{ color: "white", fontSize: iconSize }}
-                      />
-                    }
-                  />
+                <NavLink
+                  style={{ flexGrow: 1, color: "white" }}
+                  exact
+                  to="/dashboard/payment"
+                  smooth
+                >
+                  <IconButton color="inherit">
+                    <PaidIcon style={{ fontSize: iconSize }} />
+                    <Typography variant="subtitle1" sx={{ ml: 1 }}>
+                      Payment
+                    </Typography>
+                  </IconButton>
                 </NavLink>
               )}
-              <NavLink exact to="/dashboard/setting" smooth>
-                <BottomNavigationAction
-                  label="Setting"
-                  icon={
-                    <SettingsIcon
-                      style={{ color: "white", fontSize: iconSize }}
-                    />
-                  }
-                />
+              <NavLink
+                style={{ flexGrow: 1, color: "white" }}
+                exact
+                to="/dashboard/setting"
+                smooth
+              >
+                <IconButton color="inherit">
+                  <SettingsIcon style={{ fontSize: iconSize }} />
+                  <Typography variant="subtitle1" sx={{ ml: 1 }}>
+                    Setting
+                  </Typography>
+                </IconButton>
               </NavLink>
-              <BottomNavigationAction
-                onClick={() => logOut()}
-                label="LogOut"
-                icon={
-                  <ExitToAppIcon
-                    style={{ color: "white", fontSize: iconSize }}
-                  />
-                }
-              />
+              <IconButton onClick={() => logOut()} color="inherit">
+                <ExitToAppIcon style={{ fontSize: iconSize }} />
+                <Typography variant="subtitle1" sx={{ ml: 1 }}>
+                  LogOut
+                </Typography>
+              </IconButton>
             </Box>
           </Toolbar>
         </Container>

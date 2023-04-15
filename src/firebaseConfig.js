@@ -36,7 +36,11 @@ const logInWithEmailAndPassword = async (email, password) => {
 const registerWithEmailAndPassword = async (email, password, name) => {
   try {
     const res = await createUserWithEmailAndPassword(auth, email, password);
-    updateProfile(auth.currentUser, { displayName: name });
+    updateProfile(auth.currentUser, {
+      displayName: name,
+      photoURL:
+        "https://firebasestorage.googleapis.com/v0/b/ceylon-models-dsd.appspot.com/o/users%2Fceylon-models-high-resolution-logo-black-on-transparent-background.png?alt=media&token=dc24f492-f7d3-4759-be45-ec7c6b38f951",
+    });
 
     const user = res.user;
     await setDoc(doc(db, "users", `${email}`), {

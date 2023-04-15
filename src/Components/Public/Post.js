@@ -7,7 +7,15 @@ import CardContent from "@mui/material/CardContent";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
-import { Container, Grid } from "@mui/material";
+import {
+  Container,
+  Grid,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableRow,
+} from "@mui/material";
 import ImageGallery from "./ImageGallery";
 
 export default function Post() {
@@ -25,7 +33,6 @@ export default function Post() {
     });
   }, []);
 
-  const [moreComment, setMoreComment] = useState(false);
   return (
     <Container>
       <Grid container spacing={2}>
@@ -40,6 +47,7 @@ export default function Post() {
               title,
               description,
               imageUrls,
+              photoURL,
               createdAt,
               createdBy,
               comments,
@@ -48,9 +56,13 @@ export default function Post() {
                 <Card>
                   <CardHeader
                     avatar={
-                      <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                        R
-                      </Avatar>
+                      photoURL ? (
+                        <Avatar aria-label="recipe" src={photoURL} />
+                      ) : (
+                        <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+                          CM
+                        </Avatar>
+                      )
                     }
                     title={createdBy && `${createdBy}`}
                     subheader={
@@ -76,46 +88,33 @@ export default function Post() {
                         </Typography>
                       </>
                     )}
-
-                    <div className="comment-container">
-                      {comments &&
-                        (moreComment
-                          ? comments.map((com, index) => (
-                              <div key={index} className="comment">
-                                <p>
-                                  <span className="author">
-                                    {com.userName}:
-                                  </span>{" "}
-                                  {com.comment}
-                                </p>
-                                <p className="timestamp">
-                                  {com.createdAt.toDate().toDateString()}
-                                </p>
-                              </div>
-                            ))
-                          : comments
+                    <TableContainer>
+                      <Table className="comment-table">
+                        <TableBody>
+                          {comments &&
+                            comments
                               .slice(Math.max(comments.length - 3, 0))
                               .map((com, index) => (
-                                <div key={index} className="comment">
-                                  <p>
-                                    <span className="author">
-                                      {com.userName}:
-                                    </span>{" "}
-                                    {com.comment}
-                                  </p>
-                                  <p className="timestamp">
+                                <TableRow key={index} className="comment">
+                                  <TableCell>
+                                    {com.photoURL ? (
+                                      <Avatar
+                                        aria-label="recipe"
+                                        src={com.photoURL}
+                                      />
+                                    ) : (
+                                      <>{com.userName}</>
+                                    )}
+                                  </TableCell>
+                                  <TableCell> {com.comment}</TableCell>
+                                  <TableCell>
                                     {com.createdAt.toDate().toDateString()}
-                                  </p>
-                                </div>
-                              )))}
-                      <Typography
-                        variant="caption"
-                        onClick={() => setMoreComment(!moreComment)}
-                        className="view-more"
-                      >
-                        {moreComment ? "view less" : "view more.."}
-                      </Typography>
-                    </div>
+                                  </TableCell>
+                                </TableRow>
+                              ))}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
                   </CardContent>
                 </Card>
               </Grid>

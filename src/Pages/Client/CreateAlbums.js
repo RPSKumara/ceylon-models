@@ -1,5 +1,5 @@
 import React from 'react'
-import AddArticle from '../../Components/Article/AddArticles'
+import AddArticle from '../../Components/Client/AddArticles'
 
 function CreateAlbums() {
   return (

@@ -25,7 +25,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { customAlert, registerWithEmailAndPassword } from "../firebaseConfig";
+import {  registerWithEmailAndPassword } from "../firebaseConfig";
 function Copyright(props) {
   return (
     <Typography
@@ -46,8 +46,7 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function SignUp({ setState }) {
-  const navigate = useNavigate();
+export default function SignUp({ setState }) {  
   const {
     register,
     handleSubmit,
