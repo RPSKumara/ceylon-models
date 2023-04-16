@@ -32,7 +32,7 @@ function CreateAlbums() {
       {document && document.count >= document.total_albums ? (
         <AddArticle />
       ) : (
-        <>{document && document.total_albums}Don't have any albums</>
+        <>Don't have any albums</>
       )}
     </div>
   );

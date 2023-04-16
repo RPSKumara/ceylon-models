@@ -2,15 +2,37 @@ import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, customAlert, db, storage } from "../../firebaseConfig";
 import { useState } from "react";
-import { Timestamp, addDoc, collection } from "firebase/firestore";
+import { Timestamp, doc, updateDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import { Button, Grid, LinearProgress, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  Grid,
+  LinearProgress,
+  TextField,
+  Typography,
+} from "@mui/material";
+
+function LinearProgressWithLabel(props) {
+  return (
+    <Box sx={{ display: "flex", alignItems: "center" }}>
+      <Box sx={{ width: "100%", mr: 1 }}>
+        <LinearProgress variant="determinate" {...props} />
+      </Box>
+      <Box sx={{ minWidth: 35 }}>
+        <Typography variant="body2" color="text.secondary">{`${Math.round(
+          props.value
+        )}%`}</Typography>
+      </Box>
+    </Box>
+  );
+}
 
 export default function AddPayment() {
   const [user] = useAuthState(auth);
   const [formData, setFormData] = useState({
-    title: "",
-    description: "",
+    account_number: "",
+    request_count: "",
     image: "",
     createdAt: Timestamp.now().toDate(),
   });
@@ -26,15 +48,16 @@ export default function AddPayment() {
   };
 
   const handlePublish = () => {
-    if (!formData.title || !formData.description || !formData.image) {
+    if (
+      !formData.account_number ||
+      !formData.request_count ||
+      !formData.image
+    ) {
       customAlert("Please fill all the fields", "warning");
       return;
     }
 
-    const storageRef = ref(
-      storage,
-      `/images/${Date.now()}${formData.image.name}`
-    );
+    const storageRef = ref(storage, `/albums-count/${user.email}`);
 
     const uploadImage = uploadBytesResumable(storageRef, formData.image);
 
@@ -51,22 +74,18 @@ export default function AddPayment() {
       },
       () => {
         setFormData({
-          title: "",
-          description: "",
+          account_number: "",
+          request_count: "",
           image: "",
         });
 
         getDownloadURL(uploadImage.snapshot.ref).then((url) => {
-          const articleRef = collection(db, "Articles");
-          addDoc(articleRef, {
-            title: formData.title,
-            description: formData.description,
+          const countRef = doc(db, "albums-count", `${user.email}`);
+          // Atomically increment the count of the count by 1.
+          updateDoc(countRef, {
             imageUrl: url,
-            createdAt: Timestamp.now().toDate(),
-            createdBy: user.displayName,
-            userId: user.uid,
-            likes: [],
-            comments: [],
+            account_number: formData.account_number,
+            request_count: formData.request_count,
           })
             .then(() => {
               customAlert("Article added successfully", "success");
@@ -83,30 +102,28 @@ export default function AddPayment() {
     <>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <h2>Create article</h2>
+          <h2>Upload Payment Receipt</h2>
         </Grid>
         <Grid item xs={12} sm={6}>
-          {/* title */}
+          {/* Account Number */}
           <TextField
-            label="Title"
+            label="Account Number"
             variant="outlined"
             margin="normal"
-            name="title"
-            value={formData.title}
+            name="account_number"
+            value={formData.account_number}
             onChange={(e) => handleChange(e)}
             fullWidth
           />
-          {/* description */}
-          <TextField
-            label="Description"
+          {/* Request Count */}
+          <TextField 
+            label="Request Count"
             variant="outlined"
             margin="normal"
-            name="description"
-            value={formData.description}
+            name="request_count"
+            value={formData.request_count}
             onChange={(e) => handleChange(e)}
-            multiline
-            rows={4}
-            fullWidth
+            fullWidth 
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -132,7 +149,9 @@ export default function AddPayment() {
             style={{ display: "none" }}
           />
           {progress === 0 ? null : (
-            <LinearProgress variant="determinate" value={progress} />
+            <Box sx={{ width: "100%" }}>
+              <LinearProgressWithLabel value={progress} />
+            </Box>
           )}
         </Grid>
 

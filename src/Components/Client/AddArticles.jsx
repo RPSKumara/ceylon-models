@@ -12,19 +12,38 @@ import { storage, db, auth, customAlert } from "../../firebaseConfig";
 import Compressor from "compressorjs";
 import { useAuthState } from "react-firebase-hooks/auth";
 import {
+  Box,
   Button,
+  FormControl,
   Grid,
+  InputLabel,
   LinearProgress,
+  MenuItem,
+  Select,
   TextField,
   Typography,
 } from "@mui/material";
-
+function LinearProgressWithLabel(props) {
+  return (
+    <Box sx={{ display: "flex", alignItems: "center" }}>
+      <Box sx={{ width: "100%", mr: 1 }}>
+        <LinearProgress variant="determinate" {...props} />
+      </Box>
+      <Box sx={{ minWidth: 35 }}>
+        <Typography variant="body2" color="text.secondary">{`${Math.round(
+          props.value
+        )}%`}</Typography>
+      </Box>
+    </Box>
+  );
+}
 export default function AddArticles() {
   const [user] = useAuthState(auth);
   const [formData, setFormData] = useState({
     title: "",
     description: "",
     images: [],
+    type: "Modal's",
     createdAt: Timestamp.now().toDate(),
   });
 
@@ -109,6 +128,7 @@ export default function AddArticles() {
           createdBy: user.displayName,
           userId: user.uid,
           likes: [],
+          type: formData.type,
           comments: [],
           photoURL: user.photoURL,
         })
@@ -165,6 +185,29 @@ export default function AddArticles() {
             rows={4}
             fullWidth
           />
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">
+              Article Type
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              name="type"
+              value={formData.type}
+              label="Age"
+              onChange={handleChange}
+            >
+              <MenuItem value={"Salon's"}>Salon's</MenuItem>
+              <MenuItem value={"Photographer's"}>Photographer's</MenuItem>
+              <MenuItem value={"Hotel's"}>Hotel's</MenuItem>
+              <MenuItem value={"Fashion Designer's"}>
+                Fashion Designer's
+              </MenuItem>
+              <MenuItem value={"Modal's"}>Modal's</MenuItem>
+              <MenuItem value={"Visitor's"}>Visitor's</MenuItem>
+              <MenuItem value={"Other's"}>Other's</MenuItem>
+            </Select>
+          </FormControl>
         </Grid>
         <Grid item container xs={12} sm={6}>
           {/* image */}
@@ -204,8 +247,11 @@ export default function AddArticles() {
             onChange={(e) => handleImageChange(e)}
             style={{ display: "none" }}
           />
+
           {progress === 0 ? null : (
-            <LinearProgress variant="determinate" value={progress} />
+            <Box sx={{ width: "100%" }}>
+              <LinearProgressWithLabel value={progress} />
+            </Box>
           )}
         </Grid>
 

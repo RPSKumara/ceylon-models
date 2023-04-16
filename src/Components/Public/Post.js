@@ -49,6 +49,7 @@ export default function Post() {
               imageUrls,
               photoURL,
               createdAt,
+              type,
               createdBy,
               comments,
             }) => (
@@ -70,7 +71,8 @@ export default function Post() {
                     }
                   />
                   <Typography gutterBottom variant="h4" color="text.primary">
-                    {title}
+                    {title}{" "}
+                    {type && <span style={{ fontWeight: "700" }}>#{type}</span>}
                   </Typography>
                   <ImageGallery images={imageUrls} />
                   <CardContent>

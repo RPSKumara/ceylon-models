@@ -54,6 +54,7 @@ export default function Articles() {
               likes,
               comments,
               photoURL,
+              type,
             }) => (
               <Grid item key={id}>
                 <Card>
@@ -75,6 +76,7 @@ export default function Articles() {
                   <CardContent>
                     <Typography gutterBottom variant="h4" color="text.primary">
                       {title}
+                      {type && <span style={{fontWeight:"700"}}>#{type}</span>}
                     </Typography>
                     <ImageGallery images={imageUrls} />
                     <Typography variant="h6" color="text.primary">
