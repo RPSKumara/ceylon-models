@@ -5,8 +5,7 @@ import { auth, logout } from "../../firebaseConfig";
 import { useAuthState } from "react-firebase-hooks/auth";
 import {
   AppBar,
-  Avatar,
-  BottomNavigationAction,
+  Avatar,  
   Box,
   Container,
   IconButton,
@@ -27,7 +26,7 @@ import AdbIcon from "@mui/icons-material/Adb";
 import MenuIcon from "@mui/icons-material/Menu";
 
 function Dashboard() {
-  const [user, { emailVerified, photoUrl }] = useAuthState(auth);
+  const [user] = useAuthState(auth);
   const isLargeScreen = useMediaQuery("(min-width: 960px)");
   const iconSize = isLargeScreen ? 40 : 25;
 
@@ -124,7 +123,7 @@ function Dashboard() {
                     <Typography textAlign="center">Create Albums</Typography>
                   </NavLink>
                 </MenuItem>
-                {emailVerified ? (
+                {user.emailVerified ? (
                   <MenuItem onClick={handleCloseNavMenu}>
                     <NavLink exact to="/dashboard/request-handling" smooth>
                       <Typography textAlign="center">
@@ -202,7 +201,7 @@ function Dashboard() {
                   </Typography>
                 </IconButton>
               </NavLink>
-              {emailVerified ? (
+              {user.emailVerified ? (
                 <NavLink
                   style={{ flexGrow: 1, color: "white" }}
                   exact

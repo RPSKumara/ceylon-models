@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Timestamp, collection, addDoc } from "firebase/firestore";
+import {
+  Timestamp,
+  collection,
+  addDoc,
+  updateDoc,
+  increment,
+  doc,
+} from "firebase/firestore";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage, db, auth, customAlert } from "../../firebaseConfig";
 import Compressor from "compressorjs";
@@ -107,6 +114,11 @@ export default function AddArticles() {
         })
           .then(() => {
             customAlert("Article added successfully", "success");
+            const countRef = doc(db, "albums-count", `${user.email}`);
+            // Atomically increment the count of the count by 1.
+            updateDoc(countRef, {
+              total_albums: increment(1),
+            });
             setFormData({
               title: "",
               description: "",

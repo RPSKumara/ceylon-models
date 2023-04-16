@@ -43,11 +43,11 @@ const registerWithEmailAndPassword = async (email, password, name) => {
     });
 
     const user = res.user;
-    await setDoc(doc(db, "users", `${email}`), {
-      uid: user.uid,
-      type: "user",
-      //user , admin
+    await setDoc(doc(db, "albums-count", `${email}`), {
+      uid: user.uid,      
       user_email: email,
+      total_albums: 0,
+      count: 1,
     });
   } catch (err) {
     customAlert(`${err.message}`, "error");

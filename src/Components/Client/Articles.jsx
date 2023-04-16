@@ -4,7 +4,6 @@ import { auth, db } from "../../firebaseConfig";
 import DeleteArticle from "./DeleteArticle";
 import { useAuthState } from "react-firebase-hooks/auth";
 import LikeArticle from "../Client/LikeArticle";
-import { Link } from "react-router-dom";
 
 import { red } from "@mui/material/colors";
 import {
@@ -14,7 +13,7 @@ import {
   CardContent,
   CardHeader,
   Container,
-  Grid, 
+  Grid,
   Typography,
 } from "@mui/material";
 import ImageGallery from "../Public/ImageGallery";
@@ -34,7 +33,7 @@ export default function Articles() {
       setArticles(articles);
       console.log(articles);
     });
-  }, []);  
+  }, []);
   return (
     <Container>
       <Grid container spacing={2}>
@@ -61,10 +60,7 @@ export default function Articles() {
                   <CardHeader
                     avatar={
                       photoURL ? (
-                        <Avatar                          
-                          aria-label="recipe"
-                          src={photoURL}
-                        />
+                        <Avatar aria-label="recipe" src={photoURL} />
                       ) : (
                         <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
                           CM
@@ -101,7 +97,11 @@ export default function Articles() {
                     {user && <LikeArticle id={id} likes={likes} />}
                     {likes?.length} likes
                     {user && user.uid === userId && (
-                      <DeleteArticle id={id} imageUrls={imageUrls} />
+                      <DeleteArticle
+                        id={id}
+                        imageUrls={imageUrls}
+                        email={user.email}
+                      />
                     )}
                   </CardActions>
                 </Card>
