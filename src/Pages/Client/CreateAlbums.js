@@ -29,8 +29,8 @@ function CreateAlbums() {
   return (
     <div>
       {/* <>{document.count}</> */}
-      {document && document.count >= document.total_albums ? (
-        <AddArticle />
+      {document && document.count > document.total_albums ? (
+        <AddArticle alCount={document.count} />
       ) : (
         <>Don't have any albums</>
       )}

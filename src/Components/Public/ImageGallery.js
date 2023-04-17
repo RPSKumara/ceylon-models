@@ -44,7 +44,7 @@ const ImageGallery = ({ images }) => {
                   variant="subtitle1"
                   gutterBottom
                 >
-                  {`+${images.length - 3}`}
+                  {`+${images.length - 4}`}
                 </Typography>
               </ImageListItem>
             ))}

@@ -37,7 +37,7 @@ function LinearProgressWithLabel(props) {
     </Box>
   );
 }
-export default function AddArticles() {
+export default function AddArticles({ alCount }) {
   const [user] = useAuthState(auth);
   const [formData, setFormData] = useState({
     title: "",
@@ -159,7 +159,7 @@ export default function AddArticles() {
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Typography variant="h2" align="center" fontWeight="bold">
-            Create article
+            Create article <span style={{ color: "red" }}>#{alCount}</span>
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -186,9 +186,7 @@ export default function AddArticles() {
             fullWidth
           />
           <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">
-              Article Type
-            </InputLabel>
+            <InputLabel id="demo-simple-select-label">Article Type</InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
