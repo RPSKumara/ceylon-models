@@ -98,27 +98,49 @@ function Home() {
                     </NavLink>
                   </MenuItem>
                   <MenuItem>
-                    <Typography textAlign="center">Salon's</Typography>
+                    <NavLink exact to="/specific-post?type=Salon's" smooth>
+                      <Typography textAlign="center">Salon's</Typography>
+                    </NavLink>
                   </MenuItem>
                   <MenuItem>
-                    <Typography textAlign="center">Photographer's</Typography>
+                    <NavLink
+                      exact
+                      to="/specific-post?type=Photographer's"
+                      smooth
+                    >
+                      <Typography textAlign="center">Photographer's</Typography>
+                    </NavLink>
                   </MenuItem>
                   <MenuItem>
-                    <Typography textAlign="center">Hotel's</Typography>
+                    <NavLink exact to="/specific-post?type=Hotel's" smooth>
+                      <Typography textAlign="center">Hotel's</Typography>
+                    </NavLink>
                   </MenuItem>
                   <MenuItem>
-                    <Typography textAlign="center">
-                      Fashion Designer's
-                    </Typography>
+                    <NavLink
+                      exact
+                      to="/specific-post?type=Fashion Designer's"
+                      smooth
+                    >
+                      <Typography textAlign="center">
+                        Fashion Designer's
+                      </Typography>
+                    </NavLink>
                   </MenuItem>
                   <MenuItem>
-                    <Typography textAlign="center">Modal's</Typography>
+                    <NavLink exact to="/specific-post?type=Modal's" smooth>
+                      <Typography textAlign="center">Modal's</Typography>
+                    </NavLink>
                   </MenuItem>
                   <MenuItem>
-                    <Typography textAlign="center">Visitor's</Typography>
+                    <NavLink exact to="/specific-post?type=Visitor's" smooth>
+                      <Typography textAlign="center">Visitor's</Typography>
+                    </NavLink>
                   </MenuItem>
                   <MenuItem>
-                    <Typography textAlign="center">People's</Typography>
+                    <NavLink exact to="/specific-post?type=People's" smooth>
+                      <Typography textAlign="center">People's</Typography>
+                    </NavLink>
                   </MenuItem>
                   <MenuItem>
                     <NavLink exact to="/about-us" smooth>
@@ -145,38 +167,59 @@ function Home() {
                 Ceylon Models
               </Typography>
               <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-                <Button
-                  sx={{
-                    color: "white",
-                    display: "block",
-                  }}
+                <NavLink exact to="/specific-post?type=Salon's" smooth>
+                  <Button
+                    sx={{ m: 1, my: 2, color: "white", display: "block" }}
+                  >
+                    Salon's
+                  </Button>
+                </NavLink>
+                <NavLink exact to="/specific-post?type=Photographer's" smooth>
+                  <Button
+                    sx={{ m: 1, my: 2, color: "white", display: "block" }}
+                  >
+                    Photographer's
+                  </Button>
+                </NavLink>
+                <NavLink exact to="/specific-post?type=Hotel's" smooth>
+                  <Button
+                    sx={{ m: 1, my: 2, color: "white", display: "block" }}
+                  >
+                    Hotel's
+                  </Button>
+                </NavLink>
+                <NavLink
+                  exact
+                  to="/specific-post?type=Fashion Designer's"
+                  smooth
                 >
-                  Salon's
-                </Button>
-                <Button
-                  sx={{
-                    m: 1,
-                    color: "white",
-                    display: "block",
-                  }}
-                >
-                  Photographer's
-                </Button>
-                <Button sx={{ m: 1, color: "white", display: "block" }}>
-                  Hotel's
-                </Button>
-                <Button sx={{ m: 1, color: "white", display: "block" }}>
-                  Fashion Designer's
-                </Button>
-                <Button sx={{ m: 1, color: "white", display: "block" }}>
-                  Modal's
-                </Button>
-                <Button sx={{ m: 1, color: "white", display: "block" }}>
-                  Visitor's
-                </Button>
-                <Button sx={{ m: 1, color: "white", display: "block" }}>
-                  Peoples's
-                </Button>
+                  <Button
+                    sx={{ m: 1, my: 2, color: "white", display: "block" }}
+                  >
+                    Fashion Designer's
+                  </Button>
+                </NavLink>
+                <NavLink exact to="/specific-post?type=Modal's" smooth>
+                  <Button
+                    sx={{ m: 1, my: 2, color: "white", display: "block" }}
+                  >
+                    Modal's
+                  </Button>
+                </NavLink>
+                <NavLink exact to="/specific-post?type=Visitor's" smooth>
+                  <Button
+                    sx={{ m: 1, my: 2, color: "white", display: "block" }}
+                  >
+                    Visitor's
+                  </Button>
+                </NavLink>
+                <NavLink exact to="/specific-post?type=Peoples's" smooth>
+                  <Button
+                    sx={{ m: 1, my: 2, color: "white", display: "block" }}
+                  >
+                    Peoples's
+                  </Button>
+                </NavLink>
                 <NavLink exact to="/about-us" smooth>
                   <Button
                     sx={{ m: 1, my: 2, color: "white", display: "block" }}

@@ -5,7 +5,7 @@ import { auth, logout } from "../../firebaseConfig";
 import { useAuthState } from "react-firebase-hooks/auth";
 import {
   AppBar,
-  Avatar,  
+  Avatar,
   Box,
   Container,
   IconButton,
@@ -254,9 +254,7 @@ function Dashboard() {
         </Container>
       </AppBar>
       <div className="space-album" />
-      <Container>
-        <Outlet />
-      </Container>
+      <Outlet />
     </>
   );
 }

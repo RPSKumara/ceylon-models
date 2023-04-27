@@ -14,6 +14,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import {
   Box,
   Button,
+  Container,
   FormControl,
   Grid,
   InputLabel,
@@ -155,7 +156,7 @@ export default function AddArticles({ alCount }) {
       });
   };
   return (
-    <>
+    <Container>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Typography variant="h2" align="center" fontWeight="bold">
@@ -204,6 +205,7 @@ export default function AddArticles({ alCount }) {
               <MenuItem value={"Modal's"}>Modal's</MenuItem>
               <MenuItem value={"Visitor's"}>Visitor's</MenuItem>
               <MenuItem value={"Other's"}>Other's</MenuItem>
+              <MenuItem value={"Peoples's"}>Peoples's</MenuItem>
             </Select>
           </FormControl>
         </Grid>
@@ -264,6 +266,6 @@ export default function AddArticles({ alCount }) {
           </Button>
         </Grid>
       </Grid>
-    </>
+    </Container>
   );
 }

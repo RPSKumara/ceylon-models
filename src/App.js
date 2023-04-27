@@ -35,6 +35,7 @@ function App() {
           <Route path="/" element={<Home />}>
             <Route index element={<Album />}></Route>
             <Route path="about-us" element={<About />}></Route>
+            <Route path="specific-post" element={<Album />}></Route>
           </Route>
           <Route
             path="/dashboard"

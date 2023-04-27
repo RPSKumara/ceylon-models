@@ -11,28 +11,14 @@ import { auth, db } from "../../firebaseConfig";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Container, Grid } from "@mui/material";
 import ArticlePost from "./ArticlePost";
+import { useLocation } from 'react-router-dom';
 
 export default function Articles() {
   const [articles, setArticles] = useState([]);
   const [numArticles, setNumArticles] = useState(5);
   const [user] = useAuthState(auth);
   const [loading, setLoading] = useState(false);
-  const bottomRef = useRef();
-
-  useEffect(() => {
-    const articleRef = collection(db, "Articles");
-    const q = query(articleRef, orderBy("createdAt", "desc"));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const articles = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setArticles(articles);
-      console.log(articles);
-    });
-
-    return () => unsubscribe();
-  }, []);
+  const bottomRef = useRef();  
 
   useEffect(() => {
     setLoading(true);
@@ -106,7 +92,7 @@ export default function Articles() {
                 comments={comments}
                 photoURL={photoURL}
                 type={type}
-              ></ArticlePost>
+              />
             )
           )
         )}
