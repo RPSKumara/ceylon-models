@@ -1,31 +1,28 @@
-import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
-import React, { useState, useEffect } from "react";
-import { auth, db } from "../../firebaseConfig";
-import DeleteArticle from "./DeleteArticle";
-import { useAuthState } from "react-firebase-hooks/auth";
-import LikeArticle from "../Client/LikeArticle";
-
-import { red } from "@mui/material/colors";
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
-  Avatar,
-  Card,
-  CardActions,
-  CardContent,
-  CardHeader,
-  Container,
-  Grid,
-  Typography,
-} from "@mui/material";
-import ImageGallery from "../Public/ImageGallery";
-import Comment from "./Comment";
+  collection,
+  limit,
+  onSnapshot,
+  orderBy,
+  query,
+} from "firebase/firestore";
+import React, { useState, useEffect, useRef } from "react";
+import { auth, db } from "../../firebaseConfig";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { Container, Grid } from "@mui/material";
+import ArticlePost from "./ArticlePost";
 
 export default function Articles() {
   const [articles, setArticles] = useState([]);
+  const [numArticles, setNumArticles] = useState(5);
   const [user] = useAuthState(auth);
+  const [loading, setLoading] = useState(false);
+  const bottomRef = useRef();
+
   useEffect(() => {
     const articleRef = collection(db, "Articles");
     const q = query(articleRef, orderBy("createdAt", "desc"));
-    onSnapshot(q, (snapshot) => {
+    const unsubscribe = onSnapshot(q, (snapshot) => {
       const articles = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
@@ -33,7 +30,46 @@ export default function Articles() {
       setArticles(articles);
       console.log(articles);
     });
+
+    return () => unsubscribe();
   }, []);
+
+  useEffect(() => {
+    setLoading(true);
+    const articleRef = collection(db, "Articles");
+    const q = query(
+      articleRef,
+      orderBy("createdAt", "desc"),
+      limit(numArticles)
+    );
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const articles = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setArticles(articles);
+      setLoading(false);
+      console.log(articles);
+    });
+
+    return () => unsubscribe();
+  }, [numArticles]);
+
+  const handleScroll = () => {
+    const scrollTop =
+      document.documentElement.scrollTop || document.body.scrollTop;
+    const scrollHeight =
+      document.documentElement.scrollHeight || document.body.scrollHeight;
+    const clientHeight = document.documentElement.clientHeight;
+    if (scrollTop + clientHeight >= scrollHeight - 5 && !loading) {
+      setNumArticles(numArticles + 5);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [handleScroll]);
   return (
     <Container>
       <Grid container spacing={2}>
@@ -56,61 +92,25 @@ export default function Articles() {
               photoURL,
               type,
             }) => (
-              <Grid item key={id}>
-                <Card>
-                  <CardHeader
-                    avatar={
-                      photoURL ? (
-                        <Avatar aria-label="recipe" src={photoURL} />
-                      ) : (
-                        <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                          CM
-                        </Avatar>
-                      )
-                    }
-                    title={createdBy && `${createdBy}`}
-                    subheader={
-                      createdAt && `${createdAt.toDate().toDateString()}`
-                    }
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h4" color="text.primary">
-                      {title}
-                      {type && <span style={{fontWeight:"700"}}>#{type}</span>}
-                    </Typography>
-                    <ImageGallery images={imageUrls} />
-                    <Typography variant="h6" color="text.primary">
-                      {description}
-                    </Typography>
-                    {comments && comments.length > 0 && (
-                      <>
-                        <Typography
-                          sx={{ textAlign: "right" }}
-                          variant="body2"
-                          color="text.secondary"
-                        >
-                          {comments?.length} comments
-                        </Typography>
-                      </>
-                    )}
-                    <Comment id={id} />
-                  </CardContent>
-                  <CardActions disableSpacing>
-                    {user && <LikeArticle id={id} likes={likes} />}
-                    {likes?.length} likes
-                    {user && user.uid === userId && (
-                      <DeleteArticle
-                        id={id}
-                        imageUrls={imageUrls}
-                        email={user.email}
-                      />
-                    )}
-                  </CardActions>
-                </Card>
-              </Grid>
+              <ArticlePost
+                key={id}
+                user={user}
+                id={id}
+                title={title}
+                description={description}
+                imageUrls={imageUrls}
+                createdAt={createdAt}
+                createdBy={createdBy}
+                userId={userId}
+                likes={likes}
+                comments={comments}
+                photoURL={photoURL}
+                type={type}
+              ></ArticlePost>
             )
           )
         )}
+        <div ref={bottomRef} />
       </Grid>
     </Container>
   );
