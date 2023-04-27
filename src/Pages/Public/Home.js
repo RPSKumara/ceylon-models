@@ -118,6 +118,9 @@ function Home() {
                     <Typography textAlign="center">Visitor's</Typography>
                   </MenuItem>
                   <MenuItem>
+                    <Typography textAlign="center">People's</Typography>
+                  </MenuItem>
+                  <MenuItem>
                     <NavLink exact to="/about-us" smooth>
                       <Typography textAlign="center">About</Typography>
                     </NavLink>
@@ -170,6 +173,9 @@ function Home() {
                 </Button>
                 <Button sx={{ m: 1, color: "white", display: "block" }}>
                   Visitor's
+                </Button>
+                <Button sx={{ m: 1, color: "white", display: "block" }}>
+                  Peoples's
                 </Button>
                 <NavLink exact to="/about-us" smooth>
                   <Button
